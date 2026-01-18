@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
-
+  
     const navLinks = [
         { name: 'Home', path: '/' },
         { name: 'Consulting', path: '/consult' },
