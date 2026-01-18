@@ -1,15 +1,16 @@
 :root {
   --font-main: 'Outfit', sans-serif;
-  
+
   /* Glassmorphism Tokens */
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-highlight: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   --backdrop-blur: 16px;
-  
+
   /* Colors */
-  --color-bg: #030014; /* Deep space */
+  --color-bg: #030014;
+  /* Deep space */
   --color-primary: #7000ff;
   --color-secondary: #00c3ff;
   --color-text: #ffffff;
@@ -42,7 +43,7 @@ body {
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
   backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   border-top: 1px solid var(--glass-highlight);
@@ -52,8 +53,8 @@ body {
 
 .glass-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 40px -10px rgba(0,195,255,0.2);
-  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 10px 40px -10px rgba(0, 195, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .text-gradient {
@@ -88,10 +89,39 @@ body {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 4px;
+}
+
+/* Mobile Toggle Default */
+.mobile-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  h1 {
+    font-size: 2.5rem !important;
+  }
+
+  .glass-card {
+    margin-bottom: 20px;
+  }
+
+  nav .desktop-menu {
+    display: none !important;
+  }
+
+  .mobile-toggle {
+    display: block;
+  }
 }
