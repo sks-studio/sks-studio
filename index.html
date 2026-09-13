@@ -3,10 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karabo | IT Consulting</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>SKS Studio — Business Software Made Simple</title>
+    <meta name="description" content="SKS Studio builds premium business web apps, online stores and client systems for South African businesses — one business at a time." />
+    <meta name="theme-color" content="#0b2634" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SKS Studio — Business Software Made Simple" />
+    <meta property="og:description" content="Business systems. Built around you. Sell more. Serve better. Run everything in one place." />
+    <link rel="icon" href="/assets/sks-logo.jpg" />
+    <script>
+      // Apply the saved (or system) theme before first paint to avoid a flash.
+      (function () {
+        var theme = 'light';
+        try {
+          theme = localStorage.getItem('sks-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

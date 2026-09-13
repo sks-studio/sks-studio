@@ -1,149 +1,162 @@
-import React from 'react';
-import { ArrowRight, Cloud, Code, Palette, Zap, Cpu } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { HERO_SLIDES, PRINCIPLES, PRODUCTS, SERVICES } from '../content';
+import { prefersReducedMotion, usePageTitle } from '../lib/site';
+import Closing from '../components/Closing';
+import MethodList from '../components/MethodList';
+import SafeImg from '../components/SafeImg';
+import TransitionLink from '../components/TransitionLink';
+import { useWizard } from '../components/Wizard';
 
-const Home = () => {
+const SLIDE_MS = 6000;
+const pad = (n) => String(n).padStart(2, '0');
+
+export default function Home() {
+    usePageTitle(null);
+    const openWizard = useWizard();
+    const [slide, setSlide] = useState(0);
+
+    useEffect(() => {
+        if (prefersReducedMotion()) return;
+        const id = setInterval(() => setSlide((s) => (s + 1) % HERO_SLIDES.length), SLIDE_MS);
+        return () => clearInterval(id);
+    }, []);
+
     return (
-        <div style={{ paddingTop: '120px', paddingBottom: '40px' }} className="container">
-            {/* Hero Section */}
-            <section style={{ textAlign: 'center', marginBottom: '100px' }}>
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                    <div style={{ fontSize: '1rem', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '20px', color: 'var(--color-secondary)' }}>
-                        SKS Net Pty Ltd
+        <>
+            <section className="hero" id="home">
+                <div className="hero-stage">
+                    {HERO_SLIDES.map((img, i) => (
+                        <SafeImg
+                            key={img.src}
+                            className={`hero-image${i === slide ? ' active' : ''}`}
+                            src={img.src}
+                            alt={img.alt}
+                        />
+                    ))}
+                    <div className="hero-shade" />
+                    <span className="slide-no">
+                        {pad(slide + 1)} / {pad(HERO_SLIDES.length)}
+                    </span>
+                    <div className="hero-content">
+                        <div className="hero-kicker">Business software · South Africa</div>
+                        <h1>
+                            Business systems.
+                            <br />
+                            Built around you.
+                        </h1>
+                        <div className="hero-bottom">
+                            <p className="hero-copy">Sell more. Serve better. Run everything in one place.</p>
+                            <div className="hero-wizard glass">
+                                <small>Start here</small>
+                                <strong>Choose what your business needs.</strong>
+                                <div className="progress">
+                                    <i />
+                                    <i />
+                                    <i />
+                                </div>
+                                <button className="btn" onClick={() => openWizard()}>
+                                    Start the wizard <span>↗</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <h1 style={{ fontSize: '4.5rem', marginBottom: '30px', lineHeight: 1.1 }}>
-                        Hello <span className="text-gradient">Universe.</span>
-                    </h1>
-                </motion.div>
-
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.8 }}
-                    style={{ fontSize: '1.5rem', color: 'var(--color-text-muted)', maxWidth: '800px', margin: '0 auto 50px', lineHeight: '1.6' }}
-                >
-                    "We empower brands and businesses to operate smarter, scale faster, and stand out online."
-                </motion.p>
-
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 }}
-                >
-                    <Link to="/consult" className="btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '1.1rem', padding: '15px 30px' }}>
-                        Book a Consultation <ArrowRight size={20} />
-                    </Link>
-                </motion.div>
-            </section>
-
-            {/* Services Grid */}
-            <section style={{ marginBottom: '100px' }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '50px', fontSize: '2.5rem' }}>Our <span className="text-gradient">Expertise</span></h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-                    <ServiceCard
-                        icon={<Zap size={40} color="#ffaa00" />}
-                        title="ASSISTANCE"
-                        subtitle="Business Assistance"
-                        description="Expertise to help you navigate the digital economy."
-                        action="Book a Consultation"
-                    />
-                    <ServiceCard
-                        icon={<Palette size={40} color="#ff0055" />}
-                        title="BRANDING"
-                        subtitle="Business Branding"
-                        description="Create a visual and verbal identity that converts."
-                        action="Book A Brand Audit"
-                    />
-                    <ServiceCard
-                        icon={<Cloud size={40} color="#00c3ff" />}
-                        title="CLOUD"
-                        subtitle="Business Hosting"
-                        description="A secure & reliable infrastructure tailored for business."
-                        action="Explore Hosting"
-                    />
-                    <ServiceCard
-                        icon={<Code size={40} color="#7000ff" />}
-                        title="DEVELOPMENT"
-                        subtitle="Business Online"
-                        description="Build your online presence with clean, high-performance code."
-                        action="Build an Application"
-                    />
                 </div>
             </section>
 
-            {/* Team Section */}
-            <section style={{ marginBottom: '100px' }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '50px', fontSize: '2.5rem' }}>The <span className="text-gradient">Team</span></h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '30px' }}>
-                    <TeamCard role="SALES" name="Ms Rene Fourie" category="Business Assistance" />
-                    <TeamCard role="MEDIA" name="Ms Thatohatsi Moimane" category="Business Branding" />
-                    <TeamCard role="MARKETING" name="Ms Bonnie" category="Business Hosting" />
-                    <TeamCard role="DEVELOPMENT" name="Mr Laighton Venter" category="Business Online" />
+            <section className="intro shell reveal" id="about">
+                <div className="eyebrow">The studio</div>
+                <div>
+                    <h2>We make complex software feel simple.</h2>
+                    <p className="intro-copy">One business. One useful product. One clear path from idea to launch.</p>
+                </div>
+                <div className="principles">
+                    {PRINCIPLES.map((p) => (
+                        <div className="principle" key={p.title}>
+                            <b>{p.title}</b>
+                            <span>{p.text}</span>
+                        </div>
+                    ))}
                 </div>
             </section>
 
-            {/* Blog Section */}
-            <section>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: '40px' }}>
-                    <div>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>The <span className="text-gradient">Blog</span></h2>
-                        <p style={{ maxWidth: '600px', color: 'var(--color-text-muted)' }}>
-                            A proudly South African bespoke Business to Customer IT Hub designed to simplify and accelerate growth online.
-                        </p>
+            <section className="work" id="projects">
+                <div className="shell">
+                    <div className="section-head reveal">
+                        <div>
+                            <div className="eyebrow">Products</div>
+                            <h2 className="section-title">Built for growth.</h2>
+                        </div>
+                        <p>Premium digital products with a clear business purpose.</p>
                     </div>
-                    <Link to="#" style={{ color: 'var(--color-secondary)', textDecoration: 'none' }}>View all posts →</Link>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
-                    <BlogRow title="How African SMEs Can Start Leveraging AI & ML Today" date="July 11, 2025" icon="🌐" />
-                    <BlogRow title="The Role of AI in Modern Customer Service" date="July 11, 2025" icon="🚀" />
-                    <BlogRow title="The Real Cost of Not Having IT Support in Your Business" date="July 10, 2025" icon="🤖" />
-                    <BlogRow title="How to Create a Brand That Converts" date="July 10, 2025" icon="🎬" />
+                    <div className="work-grid">
+                        {PRODUCTS.map((p) => (
+                            <TransitionLink to="/projects" className="work-card reveal" key={p.id}>
+                                <SafeImg src={p.image} alt={p.alt} loading="lazy" />
+                                <div className="work-label">
+                                    <div>
+                                        <small>Product {p.no}</small>
+                                        <h3>{p.title}</h3>
+                                    </div>
+                                    <span aria-hidden="true">↗</span>
+                                </div>
+                            </TransitionLink>
+                        ))}
+                    </div>
                 </div>
             </section>
-        </div>
+
+            <section className="method" id="method">
+                <div className="shell">
+                    <div className="section-head reveal">
+                        <div>
+                            <div className="eyebrow">Our method</div>
+                            <h2 className="section-title">
+                                From idea.
+                                <br />
+                                To sales.
+                            </h2>
+                        </div>
+                        <p>Three clear steps. Nothing extra.</p>
+                    </div>
+                    <MethodList />
+                </div>
+            </section>
+
+            <section className="services shell" id="services">
+                <div className="services-layout">
+                    <div className="reveal">
+                        <div className="eyebrow">Services</div>
+                        <h2 className="section-title">
+                            One system.
+                            <br />
+                            Seven spaces.
+                        </h2>
+                    </div>
+                    <div className="service-list reveal">
+                        {SERVICES.map((s, i) => (
+                            <details className="service" key={s.no} open={i === 0}>
+                                <summary>
+                                    <span className="num">{s.no}</span>
+                                    <h3>{s.title}</h3>
+                                    <span className="plus" aria-hidden="true">
+                                        +
+                                    </span>
+                                </summary>
+                                <div className="service-body">
+                                    <p>{s.text}</p>
+                                    <div className="chips">
+                                        {s.chips.map((chip) => (
+                                            <span key={chip}>{chip}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </details>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <Closing />
+        </>
     );
-};
-
-const ServiceCard = ({ icon, title, subtitle, description, action }) => (
-    <motion.div
-        className="glass-card"
-        style={{ padding: '30px', display: 'flex', flexDirection: 'column', height: '100%' }}
-        whileHover={{ y: -10 }}
-    >
-        <div style={{ marginBottom: '20px' }}>{icon}</div>
-        <div style={{ textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '2px', color: 'var(--color-text-muted)', marginBottom: '5px' }}>{title}</div>
-        <h3 style={{ fontSize: '1.4rem', marginBottom: '15px' }}>{subtitle}</h3>
-        <p style={{ color: 'var(--color-text-muted)', lineHeight: '1.6', flex: 1, marginBottom: '20px' }}>{description}</p>
-        <div style={{ color: 'var(--color-secondary)', fontWeight: 'bold', fontSize: '0.9rem', cursor: 'pointer' }}>
-            {action} →
-        </div>
-    </motion.div>
-);
-
-const TeamCard = ({ role, name, category }) => (
-    <div className="glass-panel" style={{ padding: '20px', textAlign: 'center' }}>
-        <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', margin: '0 auto 20px' }}></div>
-        <div style={{ fontSize: '0.8rem', color: 'var(--color-primary)', letterSpacing: '1px', marginBottom: '5px' }}>{role}</div>
-        <h3 style={{ fontSize: '1.1rem', marginBottom: '5px' }}>{name}</h3>
-        <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>{category}</div>
-    </div>
-);
-
-const BlogRow = ({ title, date, icon }) => (
-    <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer' }}>
-        <div style={{ fontSize: '2rem' }}>{icon}</div>
-        <div style={{ flex: 1 }}>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '5px' }}>{title}</h3>
-            <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>{date}</div>
-        </div>
-        <ArrowRight size={16} color="var(--color-text-muted)" />
-    </div>
-);
-
-export default Home;
+}

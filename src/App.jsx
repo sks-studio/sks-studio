@@ -1,33 +1,61 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import { useEffect } from 'react';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/Footer';
-import Background3D from './components/Background3D';
+import Header from './components/Header';
+import Preloader from './components/Preloader';
+import { WizardProvider } from './components/Wizard';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import Home from './pages/Home';
-import Consulting from './pages/Consulting';
-import Dashboard from './pages/Dashboard';
+import NotFound from './pages/NotFound';
+import Projects from './pages/Projects';
+import Services from './pages/Services';
 
-function App() {
+function Layout() {
+    const { pathname } = useLocation();
+
+    // On every route: jump to top, then fade in `.reveal` elements as they scroll into view.
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        const io = new IntersectionObserver(
+            (entries) =>
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        io.unobserve(entry.target);
+                    }
+                }),
+            { threshold: 0.12 },
+        );
+        document.querySelectorAll('.reveal:not(.visible)').forEach((el) => io.observe(el));
+        return () => io.disconnect();
+    }, [pathname]);
+
     return (
-        <Router>
-            <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-                <Background3D />
-                <Navbar />
-
-                <div style={{ flex: 1 }}>
-                    <Suspense fallback={<div style={{ color: 'white', textAlign: 'center', paddingTop: '20%' }}>Loading 3D Assets...</div>}>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/consult" element={<Consulting />} />
-                            <Route path="/dashboard" element={<Dashboard />} />
-                        </Routes>
-                    </Suspense>
-                </div>
-
-                <Footer />
-            </div>
-        </Router>
+        <>
+            <Header />
+            <main>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </main>
+            <Footer />
+        </>
     );
 }
 
-export default App;
+export default function App() {
+    return (
+        <BrowserRouter>
+            <WizardProvider>
+                <Preloader />
+                <Layout />
+            </WizardProvider>
+        </BrowserRouter>
+    );
+}
