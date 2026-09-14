@@ -61,9 +61,9 @@ export const PRODUCTS = [
 ];
 
 export const STAGES = [
-    { id: 'idea', label: 'I have an idea' },
-    { id: 'design', label: 'I have a design' },
-    { id: 'product', label: 'I have a product' },
+    { id: 'idea', label: 'I have an idea', hint: 'You know the problem — nothing is built yet.' },
+    { id: 'design', label: 'I have a design', hint: 'Sketches, a brand or mock-ups are ready.' },
+    { id: 'product', label: 'I have a product', hint: 'Something exists and needs improving or rebuilding.' },
 ];
 
 export const METHOD = [
@@ -119,6 +119,7 @@ export const SERVICES = [
 
 export const PAGES = {
     about: {
+        crumb: 'About',
         eyebrow: 'About SKS Studio',
         title: 'Built for\nownership.',
         copy: 'We help one business at a time turn a clear idea into a valuable digital system.',
@@ -126,6 +127,7 @@ export const PAGES = {
         alt: 'Founder shaping a business idea',
     },
     services: {
+        crumb: 'Services',
         eyebrow: 'Services',
         title: 'One system.\nSeven spaces.',
         copy: 'Everything needed to take your business from idea to a working digital product.',
@@ -133,6 +135,7 @@ export const PAGES = {
         alt: 'Team planning a business system',
     },
     projects: {
+        crumb: 'Projects',
         eyebrow: 'Projects',
         title: 'Built for\ngrowth.',
         copy: 'Premium digital products with a clear business purpose.',
@@ -140,6 +143,7 @@ export const PAGES = {
         alt: 'Founder using a custom business platform',
     },
     contact: {
+        crumb: 'Contact',
         eyebrow: 'Contact · Remote South Africa',
         title: 'Let’s build\nwhat matters.',
         copy: 'A direct conversation about your business, your goal and the right first step.',
@@ -153,3 +157,72 @@ export const VALUES = [
     { no: '02', title: 'Simple from the start.', text: 'Plain language, visible progress and no unnecessary complexity.' },
     { no: '03', title: 'Built to keep growing.', text: 'Your system can evolve as your customers and opportunities grow.' },
 ];
+
+// ─── Project wizard + contact form options ─────────────────────
+
+export const FEATURES = {
+    platform: [
+        'Client portal',
+        'Bookings & scheduling',
+        'Quotes & invoices',
+        'Staff roles & permissions',
+        'Reports & dashboards',
+        'Document storage',
+        'Accounting integration',
+        'Mobile-friendly app',
+    ],
+    store: [
+        'Product catalogue',
+        'Card & EFT payments',
+        'Delivery & collection',
+        'Stock management',
+        'Discount codes',
+        'Customer accounts',
+        'Order notifications',
+        'Product reviews',
+    ],
+    growth: [
+        'Lead capture forms',
+        'Client pipeline',
+        'Follow-up reminders',
+        'Email & WhatsApp templates',
+        'Client history',
+        'Sales reports',
+        'Team assignments',
+        'Automated follow-ups',
+    ],
+};
+
+export const INDUSTRIES = [
+    'Retail & e-commerce',
+    'Professional services',
+    'Health & wellness',
+    'Food & hospitality',
+    'Construction & property',
+    'Education & training',
+    'Beauty & personal care',
+    'Logistics & transport',
+    'Non-profit & community',
+    'Other',
+];
+
+export const TEAM_SIZES = ['Just me', '2–5 people', '6–20 people', '21–50 people', '50+ people'];
+
+export const GOALS = [
+    'Get found online',
+    'Sell online',
+    'Save time on admin',
+    'Organise clients and leads',
+    'Look more professional',
+    'Launch a new product',
+    'Replace spreadsheets',
+    'Automate repetitive work',
+];
+
+export const BUDGETS = ['Under R15 000', 'R15 000 – R50 000', 'R50 000 – R150 000', 'R150 000+', 'Not sure yet'];
+
+export const TIMELINES = ['As soon as possible', 'Within 1–3 months', 'Within 3–6 months', 'Just exploring'];
+
+export const CONTACT_METHODS = ['Email', 'Phone call', 'WhatsApp'];
+
+export const CONTACT_SUBJECTS = ['General question', 'New project', 'Partnership', 'Support for an existing project'];

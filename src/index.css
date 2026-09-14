@@ -12,7 +12,7 @@
   --muted: #53666e;
   --header: rgba(248, 248, 246, 0.88);
   --glass-panel: rgba(238, 245, 246, 0.93);
-  --green: #2e7d68;
+  --accent: #0b2634;
   --pad: clamp(18px, 2.8vw, 42px);
   --radius: 30px;
   --max: 1600px;
@@ -26,6 +26,7 @@
   --muted: #b7cbd2;
   --header: rgba(8, 26, 35, 0.82);
   --glass-panel: rgba(14, 43, 55, 0.94);
+  --accent: #89afbf;
 }
 
 /* ============================================================
@@ -43,19 +44,6 @@ body {
   overflow-x: hidden;
 }
 body.loading { overflow: hidden; }
-
-/* Green wipe that covers the page between routes (see TransitionLink). */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  background: #225f50;
-  transform: translateY(100%);
-  transition: transform 0.55s cubic-bezier(0.7, 0, 0.2, 1);
-  pointer-events: none;
-}
-body.page-leaving::after { transform: translateY(0); }
 
 a { color: inherit; text-decoration: none; }
 button, input { font: inherit; }
@@ -101,7 +89,7 @@ section { padding-block: clamp(84px, 11vw, 170px); }
 }
 .btn:hover:not(:disabled) { transform: translateY(-1px); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-[data-theme="dark"] .btn { background: var(--green); color: #f5f5f2; border: 1px solid #fff; }
+[data-theme="dark"] .btn { background: var(--blue); color: #081a23; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 7px; }
 .chips span { border: 1px solid var(--line); border-radius: 999px; padding: 8px 11px; font-size: 0.78rem; }
@@ -274,7 +262,7 @@ header {
 .hero-wizard .btn { width: 100%; }
 .progress { display: flex; gap: 5px; margin-bottom: 16px; }
 .progress i { height: 3px; flex: 1; background: rgba(255, 255, 255, 0.28); }
-.progress i:first-child { background: #fff; }
+.hero-wizard .progress i:first-child { background: #fff; }
 .slide-no { position: absolute; right: 28px; top: 26px; z-index: 3; color: #fff; font-size: 0.75rem; letter-spacing: 0.12em; }
 
 /* ============================================================
@@ -542,8 +530,126 @@ footer { min-height: 170px; display: flex; justify-content: space-between; align
   .wizard-card { inset: 8px; width: auto; }
 }
 
+/* ============================================================
+   PAGE WIPE — navy panel + logo between routes (TransitionLink)
+   ============================================================ */
+.page-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, var(--navy), #1e4a5c);
+  color: #f5f5f2;
+  transform: translateY(100%);
+  transition: transform 0.55s cubic-bezier(0.7, 0, 0.2, 1);
+  pointer-events: none;
+}
+body.page-leaving .page-wipe { transform: translateY(0); pointer-events: auto; }
+.page-wipe-mark {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 24px 60px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.35s 0.25s, transform 0.5s 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.page-wipe-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.page-wipe-name { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.24em; opacity: 0; transition: opacity 0.35s 0.35s; }
+body.page-leaving .page-wipe-mark { opacity: 1; transform: none; }
+body.page-leaving .page-wipe-name { opacity: 0.85; }
+
+/* ============================================================
+   PARALLAX — the layer is oversized so movement never shows an edge
+   ============================================================ */
+.parallax-layer { position: absolute; inset: -15% 0; transform: translate3d(0, var(--parallax, 0px), 0); will-change: transform; }
+.work-card .parallax-layer { inset: -8% 0; }
+.parallax-layer img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* ============================================================
+   BREADCRUMBS
+   ============================================================ */
+.breadcrumbs ol { list-style: none; margin: 0 0 22px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; }
+.breadcrumbs li { display: flex; align-items: center; gap: 8px; }
+.breadcrumbs li + li::before { content: "/"; opacity: 0.5; }
+.breadcrumbs a { opacity: 0.75; border-bottom: 1px solid transparent; transition: opacity 0.2s, border-color 0.2s; }
+.breadcrumbs a:hover { opacity: 1; border-color: currentColor; }
+
+/* ============================================================
+   PROJECT POSTS (from the admin)
+   ============================================================ */
+.post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 12px; }
+.post-card { min-height: 460px; }
+.post-card .work-label h3 { font-size: clamp(1.6rem, 2.4vw, 2.4rem); }
+.post-card .work-label p { margin: 10px 0 0; color: #d3e0e4; line-height: 1.5; max-width: 420px; }
+.project-body { display: grid; grid-template-columns: 0.62fr 1.38fr; gap: 8vw; }
+.project-body p { font-size: clamp(1.1rem, 1.6vw, 1.45rem); line-height: 1.55; margin: 0 0 1.2em; max-width: 760px; }
+.project-body .btn { margin-top: 20px; }
+
+.contact-thanks { font-size: clamp(1.3rem, 2vw, 1.8rem); line-height: 1.35; margin: 0; }
+.form-error { color: #c2410c; }
+[data-theme="dark"] .form-error { color: #fdba74; }
+.form-error a { text-decoration: underline; text-underline-offset: 3px; }
+.footer-admin { color: var(--muted); }
+
+/* ============================================================
+   DETAILED WIZARD
+   ============================================================ */
+.wizard-card { width: min(640px, 100% - 36px); }
+.wizard-step h3 { font-size: clamp(2rem, 4vw, 3.4rem); margin: 14px 0 22px; }
+.wizard-progress { display: grid; gap: 10px; margin-top: 18px; color: var(--muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.wizard-progress .progress { margin: 0; }
+.wizard-progress .progress i { background: var(--line); transition: background 0.3s; }
+.wizard-progress .progress i.on { background: var(--black); }
+.choices-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.choice { display: grid; gap: 4px; }
+.choice-label { font-weight: 700; }
+.choice-hint { font-size: 0.85rem; line-height: 1.4; opacity: 0.72; }
+.wizard-label { display: block; margin: 22px 0 10px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.wizard-step .field + .wizard-label { margin-top: 8px; }
+textarea.field { resize: vertical; font: inherit; line-height: 1.5; }
+.consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; font-size: 0.9rem; line-height: 1.45; cursor: pointer; }
+.consent input { width: 18px; height: 18px; margin: 2px 0 0; flex: none; accent-color: var(--accent); }
+.wizard-review { margin: 0; }
+.wizard-review div { display: grid; grid-template-columns: 96px 1fr auto; gap: 12px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.wizard-review dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+.wizard-review dd { margin: 0; line-height: 1.45; overflow-wrap: anywhere; }
+.link-btn { padding: 0; border: 0; background: none; color: inherit; font-size: 0.85rem; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
+.contact-grid { grid-template-columns: 0.85fr 1.15fr; }
+.contact-plan { margin-top: 40px; padding-top: 26px; border-top: 1px solid var(--line); max-width: 460px; }
+.contact-plan strong { font-size: 1.1rem; }
+.contact-plan p { margin: 8px 0 18px; color: var(--muted); line-height: 1.55; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-field { display: grid; }
+.form-field > span { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.form-field .field { margin-bottom: 18px; }
+select.field { appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 24px; }
+select.field option { color: #101111; }
+.contact-form .btn { margin-top: 22px; }
+.contact-card .contact-thanks + .btn { margin-top: 26px; }
+
+@media (max-width: 900px) {
+  .project-body { grid-template-columns: 1fr; gap: 0; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .choices-grid, .form-grid { grid-template-columns: 1fr; }
+  .wizard-review div { grid-template-columns: 1fr auto; }
+  .wizard-review dt { grid-column: 1 / -1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
-  .hero-image, .wizard-card { transition: none; animation: none; }
+  .hero-image, .wizard-card, .page-wipe { transition: none; animation: none; }
 }

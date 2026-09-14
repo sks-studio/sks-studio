@@ -3,6 +3,7 @@ import { HERO_SLIDES, PRINCIPLES, PRODUCTS, SERVICES } from '../content';
 import { prefersReducedMotion, usePageTitle } from '../lib/site';
 import Closing from '../components/Closing';
 import MethodList from '../components/MethodList';
+import Parallax from '../components/Parallax';
 import SafeImg from '../components/SafeImg';
 import TransitionLink from '../components/TransitionLink';
 import { useWizard } from '../components/Wizard';
@@ -25,14 +26,16 @@ export default function Home() {
         <>
             <section className="hero" id="home">
                 <div className="hero-stage">
-                    {HERO_SLIDES.map((img, i) => (
-                        <SafeImg
-                            key={img.src}
-                            className={`hero-image${i === slide ? ' active' : ''}`}
-                            src={img.src}
-                            alt={img.alt}
-                        />
-                    ))}
+                    <Parallax speed={0.15}>
+                        {HERO_SLIDES.map((img, i) => (
+                            <SafeImg
+                                key={img.src}
+                                className={`hero-image${i === slide ? ' active' : ''}`}
+                                src={img.src}
+                                alt={img.alt}
+                            />
+                        ))}
+                    </Parallax>
                     <div className="hero-shade" />
                     <span className="slide-no">
                         {pad(slide + 1)} / {pad(HERO_SLIDES.length)}
@@ -91,7 +94,9 @@ export default function Home() {
                     <div className="work-grid">
                         {PRODUCTS.map((p) => (
                             <TransitionLink to="/projects" className="work-card reveal" key={p.id}>
-                                <SafeImg src={p.image} alt={p.alt} loading="lazy" />
+                                <Parallax speed={0.06}>
+                                    <SafeImg src={p.image} alt={p.alt} loading="lazy" />
+                                </Parallax>
                                 <div className="work-label">
                                     <div>
                                         <small>Product {p.no}</small>

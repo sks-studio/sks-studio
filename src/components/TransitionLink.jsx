@@ -1,9 +1,10 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { prefersReducedMotion } from '../lib/site';
 
-const WIPE_MS = 520;
+const WIPE_MS = 560; // navy panel slides up and covers the page
+const HOLD_MS = 380; // logo stays on screen while the new page renders underneath
 
-// A NavLink that plays the green page-wipe before changing route.
+// A NavLink that plays the logo page-wipe (see PageWipe) before changing route.
 export default function TransitionLink({ to, onClick, ...props }) {
     const navigate = useNavigate();
     const { pathname } = useLocation();
@@ -17,7 +18,7 @@ export default function TransitionLink({ to, onClick, ...props }) {
         document.body.classList.add('page-leaving');
         setTimeout(() => {
             navigate(to);
-            requestAnimationFrame(() => document.body.classList.remove('page-leaving'));
+            setTimeout(() => document.body.classList.remove('page-leaving'), HOLD_MS);
         }, WIPE_MS);
     };
 
